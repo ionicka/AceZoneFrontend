@@ -25,7 +25,6 @@ export default function Login() {
       <div className="auth-card">
         <div className="auth-card-header">
           <h2>Log In</h2>
-          <Link to="/register">Log In / Sign Up</Link>
         </div>
         <div className="tabs">
           <Link to="/login" className="tab active">Log In</Link>

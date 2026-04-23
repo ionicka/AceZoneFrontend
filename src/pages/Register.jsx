@@ -30,7 +30,6 @@ export default function Register() {
       <div className="auth-card">
         <div className="auth-card-header">
           <h2>Sign Up</h2>
-          <Link to="/login">Log In / Sign Up</Link>
         </div>
         <div className="tabs">
           <Link to="/login" className="tab">Log In</Link>
