@@ -2,9 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/axiosConfig";
 import "./Admin.css";
+import ImageUpload from "../../components/ImageUpload";
 
 const emptyForm = {
-  name: "", description: "", price: "", oldPrice: "",
+  name: "", description: "", price: "", 
   category: "", brand: "", imageUrl: "", stock: "", available: true
 };
 
@@ -32,12 +33,11 @@ export default function AdminAdd() {
 
   return (
     <div className="admin-page">
-      <header className="admin-header">
-        <span className="logo">ArenaTenis — Admin</span>
-        <button onClick={() => navigate("/admin/products")} className="back-btn">
-          Înapoi la produse
-        </button>
-      </header>
+     <header className="admin-header">
+  <span className="logo" onClick={() => navigate("/home")} style={{ cursor: "pointer" }}>
+    ArenaTenis
+  </span>
+</header>
       <div className="admin-content">
         <div className="admin-form-section">
           <h2>Adaugă produs nou</h2>
@@ -63,10 +63,7 @@ export default function AdminAdd() {
                 <label>Preț ($) *</label>
                 <input type="number" step="0.01" value={form.price} onChange={update("price")} required />
               </div>
-              <div className="form-group">
-                <label>Preț vechi ($)</label>
-                <input type="number" step="0.01" value={form.oldPrice} onChange={update("oldPrice")} />
-              </div>
+            
               <div className="form-group">
                 <label>Stoc</label>
                 <input type="number" value={form.stock} onChange={update("stock")} />
@@ -90,13 +87,12 @@ export default function AdminAdd() {
               </div>
             </div>
             <div className="form-group">
-              <label>URL Imagine</label>
-              <input value={form.imageUrl} onChange={update("imageUrl")} placeholder="https://..." />
-              {form.imageUrl && (
-                <img src={form.imageUrl} alt="preview"
-                  style={{ marginTop: 8, height: 100, borderRadius: 8, objectFit: "cover" }} />
-              )}
-            </div>
+  <label>Imagine</label>
+  <ImageUpload
+    value={form.imageUrl}
+    onChange={(url) => setForm({ ...form, imageUrl: url })}
+  />
+</div>
             <div className="form-actions">
               <button type="submit" className="btn-primary">Adaugă produs</button>
               <button type="button" className="btn-secondary"

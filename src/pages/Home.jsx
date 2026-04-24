@@ -1,21 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import api from "../api/axiosConfig";
 import "./Home.css";
 
-const categories = ["All Categories", "Fashion", "Health & Wellness", "Home", "Sports", "Court Rental"];
-
-const products = [
-  { id: 1, name: "Tennis Racket Pro Elite", price: 89.99, emoji: "🎾", badge: "Top Item" },
-  { id: 2, name: "Tennis Shoes Court Master", price: 94.99, oldPrice: 120.00, emoji: "👟" },
-  { id: 3, name: "Tennis Balls Wilson x3", price: 12.99, emoji: "⚽", badge: "Sale" },
-  { id: 4, name: "Tennis Bag Sport Pro", price: 59.99, oldPrice: 75.00, emoji: "🎒" },
-  { id: 5, name: "Court Rental — 1 hour", price: 25, emoji: "🎾", badge: "Rental" },
-  { id: 6, name: "Wristband & Grip Set", price: 18.50, emoji: "🧤" },
-];
+const categories = ["All Categories", "Rackets", "Shoes", "Balls", "Bags", "Clothing", "Accessories", "Court Rental"];
 
 export default function Home() {
+  const [products, setProducts] = useState([]);
+  const [filtered, setFiltered] = useState([]);
+  const [activeCategory, setActiveCategory] = useState("All Categories");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    api.get("/api/products")
+      .then(res => {
+        setProducts(res.data);
+        setFiltered(res.data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  const handleCategory = (cat) => {
+    setActiveCategory(cat);
+    if (cat === "All Categories") {
+      setFiltered(products);
+    } else {
+      setFiltered(products.filter(p => p.category === cat));
+    }
+  };
 
   return (
     <div className="home-page">
@@ -25,24 +40,44 @@ export default function Home() {
           &#9776; Filters
         </button>
         {categories.map(cat => (
-          <button key={cat} className={`cat-btn ${cat === "All Categories" ? "active" : ""}`}>
+          <button
+            key={cat}
+            className={`cat-btn ${activeCategory === cat ? "active" : ""}`}
+            onClick={() => handleCategory(cat)}
+          >
             {cat}
           </button>
         ))}
       </div>
+
       <div className="main-layout">
         <aside className={`sidebar ${sidebarOpen ? "open" : "closed"}`}>
           {/* filtre */}
         </aside>
+
         <div className="products-grid">
-          {products.map(p => (
+          {loading && <p style={{ padding: "1rem", color: "#7a6555" }}>Se încarcă produsele...</p>}
+
+          {!loading && filtered.length === 0 && (
+            <p style={{ padding: "1rem", color: "#7a6555" }}>Nu există produse în această categorie.</p>
+          )}
+
+          {filtered.map(p => (
             <div key={p.id} className="product-card">
               <div className="product-img">
-                {p.emoji}
-                {p.badge && <span className="badge">{p.badge}</span>}
+               {p.imageUrl
+  ? <img
+      src={`http://localhost:8080${p.imageUrl}`}
+      alt={p.name}
+      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+    />
+  : <span style={{ fontSize: 48 }}>🎾</span>
+}
+                {p.stock === 0 && <span className="badge" style={{ background: "#c62828" }}>Stoc epuizat</span>}
               </div>
               <div className="product-info">
                 <p className="product-name">{p.name}</p>
+                {p.brand && <p style={{ fontSize: 11, color: "#9e8572", marginBottom: 4 }}>{p.brand}</p>}
                 <div className="product-price">
                   {p.oldPrice && <span className="price-old">${p.oldPrice}</span>}
                   <span className="price-new">${p.price}</span>

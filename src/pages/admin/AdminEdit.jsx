@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../api/axiosConfig";
 import "./Admin.css";
-
+import ImageUpload from "../../components/ImageUpload";
 const categories = ["Rackets", "Shoes", "Balls", "Bags", "Clothing", "Accessories", "Court Rental"];
 
 export default function AdminEdit() {
@@ -36,11 +36,10 @@ export default function AdminEdit() {
   return (
     <div className="admin-page">
       <header className="admin-header">
-        <span className="logo">ArenaTenis — Admin</span>
-        <button onClick={() => navigate("/admin/products")} className="back-btn">
-          Înapoi la produse
-        </button>
-      </header>
+  <span className="logo" onClick={() => navigate("/home")} style={{ cursor: "pointer" }}>
+    ArenaTenis
+  </span>
+</header>
       <div className="admin-content">
         <div className="admin-form-section">
           <h2>Modifică produs #{id}</h2>
@@ -93,13 +92,12 @@ export default function AdminEdit() {
               </div>
             </div>
             <div className="form-group">
-              <label>URL Imagine</label>
-              <input value={form.imageUrl || ""} onChange={update("imageUrl")} />
-              {form.imageUrl && (
-                <img src={form.imageUrl} alt="preview"
-                  style={{ marginTop: 8, height: 100, borderRadius: 8, objectFit: "cover" }} />
-              )}
-            </div>
+  <label>Imagine</label>
+  <ImageUpload
+    value={form.imageUrl}
+    onChange={(url) => setForm({ ...form, imageUrl: url })}
+  />
+</div>
             <div className="form-actions">
               <button type="submit" className="btn-primary">Salvează modificările</button>
               <button type="button" className="btn-secondary"

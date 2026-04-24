@@ -34,12 +34,14 @@ if (token) {
       <div className="navbar-right">
        {isAdmin ? (
   <>
-    <Link to="/admin/products" className="nav-link admin-link">&#9776; Toate produsele</Link>
+      <Link to="/admin/products" className="nav-link admin-link">&#9776; Toate produsele</Link>
     <Link to="/admin/add" className="nav-link admin-link">+ Adaugă</Link>
-    <Link to="/admin/edit/1" className="nav-link admin-link">&#9998; Modifică</Link>
+    <Link to="/admin/products" className="nav-link admin-link">&#9998; Modifică</Link>
+  
   </>
 ) : (
   <>
+  
     <Link to="/favourites" className="nav-link">&#9825; Favourites</Link>
     <Link to="/cart" className="nav-link">&#128722; Cart <span className="cart-badge">0</span></Link>
   </>

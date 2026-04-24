@@ -93,11 +93,10 @@ export default function AdminProducts() {
 function AdminHeader() {
   const navigate = useNavigate();
   return (
-    <header className="admin-header">
-      <span className="logo">ArenaTenis — Admin</span>
-      <button onClick={() => navigate("/home")} className="back-btn">
-        Înapoi la site
-      </button>
-    </header>
+   <header className="admin-header">
+  <span className="logo" onClick={() => navigate("/home")} style={{ cursor: "pointer" }}>
+    ArenaTenis
+  </span>
+</header>
   );
 }
