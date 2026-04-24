@@ -95,3 +95,23 @@ button {
 .signup-text a { color: #fff; font-weight: 500; }
 
 .error { color: #ffaaaa; font-size: 12px; margin-bottom: 8px; }
+
+@media (max-width: 600px) {
+  .auth-page {
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .auth-card {
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .brand {
+    position: static;
+    text-align: center;
+    display: block;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+  }
+}
