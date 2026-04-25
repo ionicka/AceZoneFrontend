@@ -95,7 +95,7 @@ function AdminHeader() {
   return (
    <header className="admin-header">
   <span className="logo" onClick={() => navigate("/home")} style={{ cursor: "pointer" }}>
-    ArenaTenis
+    AceZone 
   </span>
 </header>
   );

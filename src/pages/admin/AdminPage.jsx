@@ -67,7 +67,7 @@ export default function AdminPage({ mode = "add" }) {
   return (
     <div className="admin-page">
       <header className="admin-header">
-        <span className="logo">ArenaTenis — Admin</span>
+        <span className="logo">AceZone — Admin</span>
         <button onClick={() => navigate("/home")} className="back-btn">
           Inapoi la site
         </button>

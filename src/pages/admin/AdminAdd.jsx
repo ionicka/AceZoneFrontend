@@ -35,7 +35,7 @@ export default function AdminAdd() {
     <div className="admin-page">
      <header className="admin-header">
   <span className="logo" onClick={() => navigate("/home")} style={{ cursor: "pointer" }}>
-    ArenaTenis
+    AceZone
   </span>
 </header>
       <div className="admin-content">

@@ -25,7 +25,7 @@ if (token) {
  return (
     <nav className="navbar">
       <div className="navbar-left">
-        <span className="logo">ArenaTenis</span>
+        <span className="logo">AceZone</span>
         <div className="search-box">
           <span>&#128269;</span>
           <input type="text" placeholder="Search..." />

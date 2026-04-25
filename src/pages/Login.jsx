@@ -21,7 +21,7 @@ export default function Login() {
 
   return (
     <div className="auth-page">
-      <div className="brand">ArenaTenis</div>
+      <div className="brand">AceZone</div>
       <div className="auth-card">
         <div className="auth-card-header">
           <h2>Log In</h2>
