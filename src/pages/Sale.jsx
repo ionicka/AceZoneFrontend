@@ -4,6 +4,7 @@ import api from "../api/axiosConfig";
 import "./Sale.css";
 import { useFavourites } from "../context/FavouritesContext";
 import { useCart } from "../context/CartContext";
+
 const categories = [
   { value: "All Categories", label: "Toate Categoriile" },
   { value: "Rackets", label: "Rachete" },
@@ -15,20 +16,21 @@ const categories = [
 ];
 
 export default function Sale() {
-   const { loadCart } = useCart();
+  const { loadCart } = useCart();
+  const { liked, toggleFavourite } = useFavourites();
   const [products, setProducts] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [activeCategory, setActiveCategory] = useState("All Categories");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-    const { liked, toggleFavourite } = useFavourites();
   const [cartMsg, setCartMsg] = useState({});
 
   useEffect(() => {
     api.get("/api/products")
       .then(res => {
-        setProducts(res.data);
-        setFiltered(res.data);
+        const saleProducts = res.data.filter(p => p.category !== "Court Rental");
+        setProducts(saleProducts);
+        setFiltered(saleProducts);
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -42,8 +44,6 @@ export default function Sale() {
       setFiltered(products.filter(p => p.category === cat));
     }
   };
-
-
 
   const addToCart = (e, productId) => {
     e.stopPropagation();
@@ -106,7 +106,7 @@ export default function Sale() {
                 )}
                 <button
                   className={`heart ${liked[p.id] ? "liked" : ""}`}
-               onClick={(e) => { e.stopPropagation(); toggleFavourite(p.id); }}
+                  onClick={(e) => { e.stopPropagation(); toggleFavourite(p.id); }}
                   title={liked[p.id] ? "Elimină din favorite" : "Adaugă la favorite"}
                 >
                   {liked[p.id] ? "♥" : "♡"}

@@ -3,11 +3,12 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import api from "../api/axiosConfig";
 import "./Sale.css";
+import "./Rent.css";
 import { useFavourites } from "../context/FavouritesContext";
 
 export default function Rent() {
-  const [products, setProducts] = useState([]);
-  const [filtered, setFiltered] = useState([]);
+  const [courts, setCourts] = useState([]);
+  const [otherProducts, setOtherProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const { liked, toggleFavourite } = useFavourites();
   const navigate = useNavigate();
@@ -16,8 +17,10 @@ export default function Rent() {
     api.get("/api/products")
       .then(res => {
         const rentProducts = res.data.filter(p => p.rentable === true);
-        setProducts(rentProducts);
-        setFiltered(rentProducts);
+        const courtList = rentProducts.filter(p => p.category === "Court Rental").slice(0, 2);
+        const others = rentProducts.filter(p => p.category !== "Court Rental");
+        setCourts(courtList);
+        setOtherProducts(others);
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -26,62 +29,121 @@ export default function Rent() {
   return (
     <div className="Sale-page">
       <Navbar />
+
       <div className="categories-bar">
         <span style={{ fontSize: 13, fontWeight: 600, color: "#5a3e28", padding: "0 8px" }}>
           Produse disponibile pentru închiriere
         </span>
       </div>
-      <div className="main-layout">
-        <div className="products-grid">
-          {loading && (
-            <p style={{ padding: "1rem", color: "#7a6555" }}>Se încarcă...</p>
-          )}
-          {!loading && filtered.length === 0 && (
-            <p style={{ padding: "1rem", color: "#7a6555" }}>
-              Nu există produse disponibile pentru chirie.
-            </p>
-          )}
-          {filtered.map(p => (
-            <div
-              key={p.id}
-              className="product-card"
-              onClick={() => navigate(`/rent/${p.id}`)}
-            >
-              <div className="product-img">
-                {p.imageUrl
-                  ? <img src={`http://localhost:8080${p.imageUrl}`} alt={p.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                  : <span style={{ fontSize: 48 }}>🎾</span>
-                }
-                {p.stock === 0 && (
-                  <span className="badge" style={{ background: "#c62828" }}>Stoc epuizat</span>
-                )}
-                <button
-                  className={`heart ${liked[p.id] ? "liked" : ""}`}
-                  onClick={(e) => { e.stopPropagation(); toggleFavourite(p.id); }}
-                  title={liked[p.id] ? "Elimină din favorite" : "Adaugă la favorite"}
-                >
-                  {liked[p.id] ? "♥" : "♡"}
-                </button>
-              </div>
-              <div className="product-info">
-                <p className="product-name">{p.name}</p>
-                {p.brand && (
-                  <p style={{ fontSize: 11, color: "#9e8572", marginBottom: 4 }}>{p.brand}</p>
-                )}
-                <div className="product-price">
-                  <span className="price-new">{p.price} MDL / oră</span>
-                </div>
-                <button
-                  className="add-to-cart-btn"
-                  onClick={(e) => { e.stopPropagation(); navigate(`/rent/${p.id}`); }}
-                  disabled={p.stock === 0}
-                >
-                  📅 Închiriază acum
-                </button>
-              </div>
+
+      <div className="rent-page-container">
+
+        {loading && (
+          <p style={{ padding: "1rem", color: "#7a6555" }}>Se încarcă...</p>
+        )}
+
+        {/* ── TERENURI EVIDENȚIATE ── */}
+        {!loading && courts.length > 0 && (
+          <div className="courts-section">
+            <div className="courts-section-header">
+              <span className="courts-eyebrow">🏟️ Terenuri de Tenis</span>
+              <h2 className="courts-title">Rezervă un Teren</h2>
             </div>
-          ))}
-        </div>
+            <div className="courts-grid">
+              {courts.map(p => (
+                <div
+                  key={p.id}
+                  className="court-card"
+                  onClick={() => navigate(`/rent/${p.id}`)}
+                >
+                  <div className="court-img">
+                    {p.imageUrl
+                      ? <img src={`http://localhost:8080${p.imageUrl}`} alt={p.name} />
+                      : <span>🏟️</span>
+                    }
+                    <div className="court-overlay" />
+                    <div className="court-info-overlay">
+                      <p className="court-name">{p.name}</p>
+                      <p className="court-price">{p.rentPrice || p.price} MDL / oră</p>
+                    </div>
+                    <button
+                      className={`heart ${liked[p.id] ? "liked" : ""}`}
+                      onClick={(e) => { e.stopPropagation(); toggleFavourite(p.id); }}
+                    >
+                      {liked[p.id] ? "♥" : "♡"}
+                    </button>
+                  </div>
+                  <div className="court-footer">
+                   
+                    <button
+                      className="court-btn"
+                      onClick={(e) => { e.stopPropagation(); navigate(`/rent/${p.id}`); }}
+                    >
+                      📅 Rezervă acum →
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── ALTE PRODUSE ── */}
+        {!loading && otherProducts.length > 0 && (
+          <div className="other-products-section">
+            <div className="courts-section-header">
+              <span className="courts-eyebrow">🎾 Echipament</span>
+              <h2 className="courts-title">Alte Produse pentru Închiriere</h2>
+            </div>
+            <div className="products-grid">
+              {otherProducts.map(p => (
+                <div
+                  key={p.id}
+                  className="product-card"
+                  onClick={() => navigate(`/rent/${p.id}`)}
+                >
+                  <div className="product-img">
+                    {p.imageUrl
+                      ? <img src={`http://localhost:8080${p.imageUrl}`} alt={p.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                      : <span style={{ fontSize: 48 }}>🎾</span>
+                    }
+                    {p.stock === 0 && (
+                      <span className="badge" style={{ background: "#c62828" }}>Stoc epuizat</span>
+                    )}
+                    <button
+                      className={`heart ${liked[p.id] ? "liked" : ""}`}
+                      onClick={(e) => { e.stopPropagation(); toggleFavourite(p.id); }}
+                    >
+                      {liked[p.id] ? "♥" : "♡"}
+                    </button>
+                  </div>
+                  <div className="product-info">
+                    <p className="product-name">{p.name}</p>
+                    {p.brand && (
+                      <p style={{ fontSize: 11, color: "#9e8572", marginBottom: 4 }}>{p.brand}</p>
+                    )}
+                    <div className="product-price">
+                      <span className="price-new">{p.rentPrice || p.price} MDL / oră</span>
+                    </div>
+                    <button
+                      className="add-to-cart-btn"
+                      onClick={(e) => { e.stopPropagation(); navigate(`/rent/${p.id}`); }}
+                      disabled={p.stock === 0}
+                    >
+                      📅 Închiriază acum
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {!loading && courts.length === 0 && otherProducts.length === 0 && (
+          <p style={{ padding: "2rem", color: "#7a6555" }}>
+            Nu există produse disponibile pentru chirie.
+          </p>
+        )}
       </div>
     </div>
   );
