@@ -3,13 +3,27 @@ import { useNavigate } from "react-router-dom";
 import api from "../../api/axiosConfig";
 import "./Admin.css";
 import ImageUpload from "../../components/ImageUpload";
-
+import Navbar from "../../components/Navbar";
 const emptyForm = {
-  name: "", description: "", price: "", 
-  category: "", brand: "", imageUrl: "", stock: "", available: true
+  name: "",
+  description: "",
+  price: "",
+  category: "",
+  brand: "",
+  imageUrl: "",
+  stock: "",
+  available: true,
+  rentable: false,
 };
 
-const categories = ["Rackets", "Shoes", "Balls", "Bags", "Clothing", "Accessories", "Court Rental"];
+const categories = [
+  "Rackets",
+  "Shoes",
+  "Balls",
+  "Bags",
+  "Clothing",
+  "Accessories",
+];
 
 export default function AdminAdd() {
   const [form, setForm] = useState(emptyForm);
@@ -17,7 +31,8 @@ export default function AdminAdd() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const update = (field) => (e) => setForm({ ...form, [field]: e.target.value });
+  const update = (field) => (e) =>
+    setForm({ ...form, [field]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,11 +48,7 @@ export default function AdminAdd() {
 
   return (
     <div className="admin-page">
-     <header className="admin-header">
-  <span className="logo" onClick={() => navigate("/home")} style={{ cursor: "pointer" }}>
-    AceZone
-  </span>
-</header>
+      <Navbar />
       <div className="admin-content">
         <div className="admin-form-section">
           <h2>Adaugă produs nou</h2>
@@ -56,47 +67,90 @@ export default function AdminAdd() {
             </div>
             <div className="form-group">
               <label>Descriere</label>
-              <textarea value={form.description} onChange={update("description")} rows={3} />
+              <textarea
+                value={form.description}
+                onChange={update("description")}
+                rows={3}
+              />
             </div>
             <div className="form-row">
               <div className="form-group">
                 <label>Preț ($) *</label>
-                <input type="number" step="0.01" value={form.price} onChange={update("price")} required />
+                <input
+                  type="number"
+                  step="0.01"
+                  value={form.price}
+                  onChange={update("price")}
+                  required
+                />
               </div>
-            
+
               <div className="form-group">
                 <label>Stoc</label>
-                <input type="number" value={form.stock} onChange={update("stock")} />
+                <input
+                  type="number"
+                  value={form.stock}
+                  onChange={update("stock")}
+                />
               </div>
             </div>
             <div className="form-row">
               <div className="form-group">
                 <label>Categorie *</label>
-                <select value={form.category} onChange={update("category")} required>
+                <select
+                  value={form.category}
+                  onChange={update("category")}
+                  required
+                >
                   <option value="">Selectează...</option>
-                  {categories.map(c => <option key={c} value={c}>{c}</option>)}
+                  {categories.map((c) => (
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="form-group">
                 <label>Disponibil</label>
-                <select value={form.available}
-                  onChange={e => setForm({ ...form, available: e.target.value === "true" })}>
+                <select
+                  value={form.available}
+                  onChange={(e) =>
+                    setForm({ ...form, available: e.target.value === "true" })
+                  }
+                >
                   <option value="true">Da</option>
                   <option value="false">Nu</option>
                 </select>
               </div>
+              <div className="form-group">
+                <label>Acces Chirie</label>
+                <select
+                  value={form.rentable}
+                  onChange={(e) =>
+                    setForm({ ...form, rentable: e.target.value === "true" })
+                  }
+                >
+                  <option value="false">Nu</option>
+                  <option value="true">Da</option>
+                </select>
+              </div>
             </div>
             <div className="form-group">
-  <label>Imagine</label>
-  <ImageUpload
-    value={form.imageUrl}
-    onChange={(url) => setForm({ ...form, imageUrl: url })}
-  />
-</div>
+              <label>Imagine</label>
+              <ImageUpload
+                value={form.imageUrl}
+                onChange={(url) => setForm({ ...form, imageUrl: url })}
+              />
+            </div>
             <div className="form-actions">
-              <button type="submit" className="btn-primary">Adaugă produs</button>
-              <button type="button" className="btn-secondary"
-                onClick={() => navigate("/admin/products")}>
+              <button type="submit" className="btn-primary">
+                Adaugă produs
+              </button>
+              <button
+                type="button"
+                className="btn-secondary"
+                onClick={() => navigate("/admin/products")}
+              >
                 Anulează
               </button>
             </div>

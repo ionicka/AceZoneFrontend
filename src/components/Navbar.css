@@ -14,33 +14,18 @@
 .navbar-left {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1.8rem;
 }
 
 .logo {
-  font-size: 20px;
+  font-size: 25px;
   font-weight: 700;
   font-style: italic;
   color: #5a3e28;
   text-decoration: none;
-}
-
-.search-box {
-  display: flex;
-  align-items: center;
-  background: #f5f0ea;
-  border-radius: 20px;
-  padding: 6px 14px;
-  gap: 6px;
-}
-
-.search-box input {
-  border: none;
-  background: transparent;
-  font-size: 13px;
-  color: #5a3e28;
-  outline: none;
-  width: 180px;
+  min-width: fit-content;
+  white-space: nowrap;
+  font-family: 'Playfair Display', serif; 
 }
 
 .navbar-right {
@@ -101,9 +86,7 @@
 }
 
 @media (max-width: 768px) {
-  .search-box {
-    display: none;
-  }
+ 
 
   .nav-link span:not(.cart-badge) {
     display: none;

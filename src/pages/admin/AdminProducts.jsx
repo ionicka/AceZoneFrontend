@@ -2,13 +2,16 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/axiosConfig";
 import "./Admin.css";
+import Navbar from "../../components/Navbar";
 
 export default function AdminProducts() {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => { fetchProducts(); }, []);
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   const fetchProducts = async () => {
     try {
@@ -36,7 +39,10 @@ export default function AdminProducts() {
         <div className="admin-table-section">
           <div className="section-header">
             <h2>Toate produsele ({products.length})</h2>
-            <button className="btn-primary" onClick={() => navigate("/admin/add")}>
+            <button
+              className="btn-primary"
+              onClick={() => navigate("/admin/add")}
+            >
               + Adaugă produs
             </button>
           </div>
@@ -52,31 +58,46 @@ export default function AdminProducts() {
                 <th>Stoc</th>
                 <th>Disponibil</th>
                 <th>Acțiuni</th>
+                <th>Chirie</th>
               </tr>
             </thead>
             <tbody>
-              {products.map(p => (
+              {products.map((p) => (
                 <tr key={p.id}>
                   <td>#{p.id}</td>
                   <td>{p.name}</td>
                   <td>{p.category}</td>
                   <td>{p.brand}</td>
                   <td>
-                    {p.oldPrice && <span className="price-old">${p.oldPrice} </span>}
+                   
                     <span>${p.price}</span>
                   </td>
                   <td>{p.stock}</td>
                   <td>
-                    <span className={`status ${p.available ? "active" : "inactive"}`}>
+                    <span
+                      className={`status ${p.available ? "active" : "inactive"}`}
+                    >
                       {p.available ? "Da" : "Nu"}
                     </span>
                   </td>
+                  <td>
+                    <span
+                      className={`status ${p.rentable ? "active" : "inactive"}`}
+                    >
+                      {p.rentable ? "Da" : "Nu"}
+                    </span>
+                  </td>
                   <td className="actions">
-                    <button className="btn-edit"
-                      onClick={() => navigate(`/admin/edit/${p.id}`)}>
+                    <button
+                      className="btn-edit"
+                      onClick={() => navigate(`/admin/edit/${p.id}`)}
+                    >
                       Edit
                     </button>
-                    <button className="btn-delete" onClick={() => handleDelete(p.id)}>
+                    <button
+                      className="btn-delete"
+                      onClick={() => handleDelete(p.id)}
+                    >
                       Șterge
                     </button>
                   </td>
@@ -92,11 +113,5 @@ export default function AdminProducts() {
 
 function AdminHeader() {
   const navigate = useNavigate();
-  return (
-   <header className="admin-header">
-  <span className="logo" onClick={() => navigate("/home")} style={{ cursor: "pointer" }}>
-    AceZone 
-  </span>
-</header>
-  );
+  return <Navbar />;
 }

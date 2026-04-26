@@ -4,11 +4,25 @@ import api from "../api/axiosConfig";
 import "./AdminPage.css";
 
 const emptyForm = {
-  name: "", description: "", price: "", oldPrice: "",
-  category: "", brand: "", imageUrl: "", stock: "", available: true
+  name: "",
+  description: "",
+  price: "",
+ 
+  category: "",
+  brand: "",
+  imageUrl: "",
+  stock: "",
+  available: true,
 };
 
-const categories = ["Rackets", "Shoes", "Balls", "Bags", "Clothing", "Accessories", "Court Rental"];
+const categories = [
+  "Rackets",
+  "Shoes",
+  "Balls",
+  "Bags",
+  "Clothing",
+  "Accessories",
+];
 
 export default function AdminPage({ mode = "add" }) {
   const [products, setProducts] = useState([]);
@@ -62,7 +76,8 @@ export default function AdminPage({ mode = "add" }) {
     }
   };
 
-  const update = (field) => (e) => setForm({ ...form, [field]: e.target.value });
+  const update = (field) => (e) =>
+    setForm({ ...form, [field]: e.target.value });
 
   return (
     <div className="admin-page">
@@ -90,33 +105,56 @@ export default function AdminPage({ mode = "add" }) {
             </div>
             <div className="form-group">
               <label>Descriere</label>
-              <textarea value={form.description} onChange={update("description")} rows={3} />
+              <textarea
+                value={form.description}
+                onChange={update("description")}
+                rows={3}
+              />
             </div>
             <div className="form-row">
               <div className="form-group">
                 <label>Preț ($)</label>
-                <input type="number" value={form.price} onChange={update("price")} required />
+                <input
+                  type="number"
+                  value={form.price}
+                  onChange={update("price")}
+                  required
+                />
               </div>
-              <div className="form-group">
-                <label>Preț vechi ($)</label>
-                <input type="number" value={form.oldPrice} onChange={update("oldPrice")} />
-              </div>
+
               <div className="form-group">
                 <label>Stoc</label>
-                <input type="number" value={form.stock} onChange={update("stock")} />
+                <input
+                  type="number"
+                  value={form.stock}
+                  onChange={update("stock")}
+                />
               </div>
             </div>
             <div className="form-row">
               <div className="form-group">
                 <label>Categorie</label>
-                <select value={form.category} onChange={update("category")} required>
+                <select
+                  value={form.category}
+                  onChange={update("category")}
+                  required
+                >
                   <option value="">Selectează...</option>
-                  {categories.map(c => <option key={c} value={c}>{c}</option>)}
+                  {categories.map((c) => (
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="form-group">
                 <label>Disponibil</label>
-                <select value={form.available} onChange={e => setForm({...form, available: e.target.value === "true"})}>
+                <select
+                  value={form.available}
+                  onChange={(e) =>
+                    setForm({ ...form, available: e.target.value === "true" })
+                  }
+                >
                   <option value="true">Da</option>
                   <option value="false">Nu</option>
                 </select>
@@ -124,15 +162,25 @@ export default function AdminPage({ mode = "add" }) {
             </div>
             <div className="form-group">
               <label>URL Imagine</label>
-              <input value={form.imageUrl} onChange={update("imageUrl")} placeholder="https://..." />
+              <input
+                value={form.imageUrl}
+                onChange={update("imageUrl")}
+                placeholder="https://..."
+              />
             </div>
             <div className="form-actions">
               <button type="submit" className="btn-primary">
                 {editingId ? "Salvează modificările" : "Adaugă produs"}
               </button>
               {editingId && (
-                <button type="button" className="btn-secondary"
-                  onClick={() => { setForm(emptyForm); setEditingId(null); }}>
+                <button
+                  type="button"
+                  className="btn-secondary"
+                  onClick={() => {
+                    setForm(emptyForm);
+                    setEditingId(null);
+                  }}
+                >
                   Anulează
                 </button>
               )}
@@ -154,20 +202,29 @@ export default function AdminPage({ mode = "add" }) {
               </tr>
             </thead>
             <tbody>
-              {products.map(p => (
+              {products.map((p) => (
                 <tr key={p.id}>
                   <td>{p.name}</td>
                   <td>{p.category}</td>
                   <td>${p.price}</td>
                   <td>{p.stock}</td>
                   <td>
-                    <span className={`status ${p.available ? "active" : "inactive"}`}>
+                    <span
+                      className={`status ${p.available ? "active" : "inactive"}`}
+                    >
                       {p.available ? "Da" : "Nu"}
                     </span>
                   </td>
                   <td className="actions">
-                    <button className="btn-edit" onClick={() => handleEdit(p)}>Edit</button>
-                    <button className="btn-delete" onClick={() => handleDelete(p.id)}>Șterge</button>
+                    <button className="btn-edit" onClick={() => handleEdit(p)}>
+                      Edit
+                    </button>
+                    <button
+                      className="btn-delete"
+                      onClick={() => handleDelete(p.id)}
+                    >
+                      Șterge
+                    </button>
                   </td>
                 </tr>
               ))}

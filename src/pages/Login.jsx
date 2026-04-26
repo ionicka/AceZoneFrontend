@@ -13,7 +13,7 @@ export default function Login() {
     try {
       const res = await api.post("/api/auth/login", form);
       localStorage.setItem("token", res.data);
-      navigate("/home");
+      navigate("/");
     } catch (err) {
       setError("Username sau parola greșite.");
     }

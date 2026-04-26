@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import api from "../api/axiosConfig";
-import "./Home.css";
+import "./Sale.css";
 
-const categories = ["All Categories", "Rackets", "Shoes", "Balls", "Bags", "Clothing", "Accessories", "Court Rental"];
+const categories = ["All Categories", "Rackets", "Shoes", "Balls", "Bags", "Clothing", "Accessories"];
 
-export default function Home() {
+export default function Sale() {
   const [products, setProducts] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [activeCategory, setActiveCategory] = useState("All Categories");
@@ -31,8 +31,10 @@ export default function Home() {
     }
   };
 
+
+
   return (
-    <div className="home-page">
+    <div className="Sale-page">
       <Navbar />
       <div className="categories-bar">
         <button className="filter-toggle" onClick={() => setSidebarOpen(!sidebarOpen)}>
@@ -78,7 +80,7 @@ export default function Home() {
                 <p className="product-name">{p.name}</p>
                 {p.brand && <p style={{ fontSize: 11, color: "#9e8572", marginBottom: 4 }}>{p.brand}</p>}
                 <div className="product-price">
-                  {p.oldPrice && <span className="price-old">${p.oldPrice}</span>}
+                  
                   <span className="price-new">${p.price}</span>
                 </div>
               </div>

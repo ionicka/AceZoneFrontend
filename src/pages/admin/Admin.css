@@ -125,7 +125,7 @@
   border-radius: 6px; font-size: 12px; cursor: pointer;
 }
 
-.price-old { color: #aaa; text-decoration: line-through; margin-right: 4px; font-size: 12px; }
+
 
 .success { color: #2e7d32; background: #e8f5e9; padding: 8px 12px; border-radius: 8px; font-size: 13px; margin-bottom: 12px; }
 .error { color: #c62828; background: #ffebee; padding: 8px 12px; border-radius: 8px; font-size: 13px; margin-bottom: 12px; }
