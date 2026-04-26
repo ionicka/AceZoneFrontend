@@ -94,13 +94,16 @@
 .btn-primary:hover { background: #c07a3a; }
 
 .btn-secondary {
-  background: transparent;
-  color: #5a3e28;
-  border: 1px solid #5a3e28;
+   background: #f5f0ea !important;
+  color: #5a3e28 !important;
+  border: 1px solid #5a3e28 !important;
   padding: 9px 20px;
   border-radius: 8px;
   font-size: 13px;
   cursor: pointer;
+  font-family: sans-serif;
+  font-weight: 500;
+  transition: all 0.15s;
 }
 
 .admin-table { width: 100%; border-collapse: collapse; font-size: 13px; }

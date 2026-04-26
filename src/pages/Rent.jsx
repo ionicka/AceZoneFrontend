@@ -104,7 +104,7 @@ export default function Rent() {
                 >
                   <div className="product-img">
                     {p.imageUrl
-                      ? <img src={`http://localhost:8080${p.imageUrl}`} alt={p.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                      ? <img src={`http://localhost:8080${p.imageUrl}`}  />
                       : <span style={{ fontSize: 48 }}>🎾</span>
                     }
                     {p.stock === 0 && (

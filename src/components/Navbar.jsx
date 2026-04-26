@@ -37,20 +37,21 @@ export default function Navbar() {
         <Link to="/contact" className="nav-link">Contactați-ne</Link>
       </div>
       <div className="navbar-right">
-        {isAdmin ? (
+        {/* Linkuri vizibile doar pentru admin */}
+        {isAdmin && (
           <>
             <Link to="/admin/products" className="nav-link admin-link">&#9776; Toate produsele</Link>
             <Link to="/admin/add" className="nav-link admin-link">+ Adaugă</Link>
             <Link to="/admin/products" className="nav-link admin-link">&#9998; Modifică</Link>
           </>
-        ) : (
-          <>
-            <Link to="/favourites" className="nav-link">&#9825; Favorite</Link>
-            <Link to="/cart" className="nav-link">
-              &#128722; Coș <span className="cart-badge">{cartCount}</span>
-            </Link>
-          </>
         )}
+
+        {/* Favorite și Coș vizibile pentru toți */}
+        <Link to="/favourites" className="nav-link">&#9825; Favorite</Link>
+        <Link to="/cart" className="nav-link">
+          &#128722; Coș <span className="cart-badge">{cartCount}</span>
+        </Link>
+
         <button className="logout-btn" onClick={handleLogout}>Delogare</button>
       </div>
     </nav>

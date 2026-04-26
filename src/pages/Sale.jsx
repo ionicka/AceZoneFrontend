@@ -95,10 +95,9 @@ export default function Sale() {
               <div className="product-img">
                 {p.imageUrl
                   ? <img
-                      src={`http://localhost:8080${p.imageUrl}`}
-                      alt={p.name}
-                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                    />
+  src={`http://localhost:8080${p.imageUrl}`}
+  alt={p.name}
+/>
                   : <span style={{ fontSize: 48 }}>🎾</span>
                 }
                 {p.stock === 0 && (
