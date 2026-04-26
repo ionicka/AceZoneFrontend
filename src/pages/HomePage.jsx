@@ -5,31 +5,31 @@ import api from "../api/axiosConfig";
 import "./HomePage.css";
 
 const collections = [
-  { id: 1, tag: "New Arrivals", name: "Pro Rackets", emoji: "🎾", size: "large" },
-  { id: 2, tag: "Collection", name: "Footwear", emoji: "👟", size: "" },
-  { id: 3, tag: "Hot Sale", name: "Accessories", emoji: "🎽", size: "" },
+  { id: 1, tag: "Noutăți", name: "Rachete Pro", emoji: "🎾", size: "large", category: "Rackets" },
+  { id: 2, tag: "Colecție", name: "Încălțăminte", emoji: "👟", size: "", category: "Shoes" },
+  { id: 3, tag: "Oferte", name: "Accesorii", emoji: "🎽", size: "", category: "Accessories" },
 ];
 
 const whyItems = [
   {
     icon: "🚚",
-    title: "Free Shipping",
-    desc: "Free delivery on all orders over $90 anywhere in the country.",
+    title: "Livrare Gratuită",
+    desc: "Livrare gratuită la toate comenzile peste 500 MDL în toată țara.",
   },
   {
     icon: "↩️",
-    title: "30-Day Returns",
-    desc: "Not satisfied? Send it back within 30 days, no questions asked.",
+    title: "Returnare 30 Zile",
+    desc: "Nu ești mulțumit? Trimite înapoi în 30 de zile, fără întrebări.",
   },
   {
-    icon: "🌿",
-    title: "Quality Gear",
-    desc: "Only certified brands and premium materials for every player.",
+    icon: "🏆",
+    title: "Echipament Premium",
+    desc: "Doar branduri certificate și materiale de calitate pentru fiecare jucător.",
   },
   {
     icon: "💳",
-    title: "Secure Payment",
-    desc: "Pay with card, PayPal or cash on delivery — fully secure.",
+    title: "Plată Sigură",
+    desc: "Plătește cu cardul, PayPal sau numerar — complet securizat.",
   },
 ];
 
@@ -41,8 +41,8 @@ export default function HomePage() {
     api
       .get("/api/products")
       .then((res) => {
-        // Afișăm primele 4 produse ca "featured"
-        setFeaturedProducts(res.data.slice(0, 4));
+        const saleProducts = res.data.filter(p => p.category !== "Court Rental");
+        setFeaturedProducts(saleProducts.slice(0, 4));
       })
       .catch(() => {});
   }, []);
@@ -54,30 +54,30 @@ export default function HomePage() {
       {/* ── HERO ── */}
       <section className="hero">
         <div className="hero-bg-pattern" />
-
-        <div className="hero-content">
-          <p className="hero-eyebrow">Season 2025 Collection</p>
-          <h1 className="hero-title">
-            Elevate Your <span>Game</span> On Every Court.
-          </h1>
-          <p className="hero-subtitle">
-            Premium tennis gear from the world's top brands. Rackets, shoes,
-            apparel and more — for players at every level.
-          </p>
-          <div className="hero-actions">
-            <button className="btn-primary" onClick={() => navigate("/sale")}>
-              Shop Now →
-            </button>
-            <button className="btn-secondary" onClick={() => navigate("/sale?category=Court Rental")}>
-              Book a Court
-            </button>
+        <div className="hero-inner">
+          <div className="hero-content">
+            <p className="hero-eyebrow">Colecția Sezon 2025</p>
+            <h1 className="hero-title">
+              Ridică-ți Jocul<br />Pe Orice <span>Teren.</span>
+            </h1>
+            <p className="hero-subtitle">
+              Echipament premium de tenis de la cele mai bune branduri din lume.
+              Rachete, pantofi, îmbrăcăminte și multe altele — pentru jucători de orice nivel.
+            </p>
+            <div className="hero-actions">
+              <button className="btn-primary" onClick={() => navigate("/sale")}>
+                Cumpără Acum →
+              </button>
+              <button className="btn-secondary" onClick={() => navigate("/rent")}>
+                Închiriază un Teren
+              </button>
+            </div>
           </div>
-        </div>
 
-        {/* Placeholder — înlocuiește cu <img> când ai poza */}
-        <div className="hero-image-area">
-          <div className="hero-image-placeholder">🎾</div>
-          {/* <img src="/images/hero.jpg" alt="Tennis player" /> */}
+          <div className="hero-image-area">
+            <div className="hero-image-placeholder">🎾</div>
+            {/* <img src="/images/hero.jpg" alt="Jucător tenis" /> */}
+          </div>
         </div>
       </section>
 
@@ -86,29 +86,29 @@ export default function HomePage() {
         <div className="stat-item">
           <span className="stat-icon">🎾</span>
           <div className="stat-text">
-            <strong>500+ Products</strong>
-            <span>Rackets, shoes & more</span>
+            <strong>500+ Produse</strong>
+            <span>Rachete, pantofi și multe altele</span>
           </div>
         </div>
         <div className="stat-item">
           <span className="stat-icon">🏆</span>
           <div className="stat-text">
-            <strong>Top Brands</strong>
-            <span>Wilson, Head, Babolat & more</span>
+            <strong>Top Branduri</strong>
+            <span>Wilson, Head, Babolat și altele</span>
           </div>
         </div>
         <div className="stat-item">
           <span className="stat-icon">🚚</span>
           <div className="stat-text">
-            <strong>Free Shipping</strong>
-            <span>On orders over $90</span>
+            <strong>Livrare Gratuită</strong>
+            <span>La comenzi peste 500 MDL</span>
           </div>
         </div>
         <div className="stat-item">
           <span className="stat-icon">🏟️</span>
           <div className="stat-text">
-            <strong>Court Rentals</strong>
-            <span>Book online, play today</span>
+            <strong>Terenuri de Tenis</strong>
+            <span>Rezervă online, joacă azi</span>
           </div>
         </div>
       </div>
@@ -116,9 +116,9 @@ export default function HomePage() {
       {/* ── COLLECTIONS ── */}
       <section className="collections-section">
         <div className="section-header">
-          <p className="section-eyebrow">Browse by Category</p>
+          <p className="section-eyebrow">Explorează pe Categorie</p>
           <h2 className="section-title">
-            Our <span>Collections</span>
+            Colecțiile <span>Noastre</span>
           </h2>
           <div className="section-divider" />
         </div>
@@ -128,9 +128,8 @@ export default function HomePage() {
             <div
               key={col.id}
               className={`collection-card ${col.size}`}
-              onClick={() => navigate(`/sale?category=${col.name}`)}
+              onClick={() => navigate(`/sale`)}
             >
-              {/* Placeholder — înlocuiește div-ul cu <img> când ai pozele */}
               <div className="collection-img">
                 <span>{col.emoji}</span>
                 {/* <img src={`/images/collection-${col.id}.jpg`} alt={col.name} /> */}
@@ -140,7 +139,7 @@ export default function HomePage() {
                 <p className="collection-tag">{col.tag}</p>
                 <h3 className="collection-name">{col.name}</h3>
                 <button className="collection-link">
-                  Shop Collection →
+                  Vezi Colecția →
                 </button>
               </div>
             </div>
@@ -152,9 +151,9 @@ export default function HomePage() {
       {featuredProducts.length > 0 && (
         <section className="featured-section">
           <div className="section-header">
-            <p className="section-eyebrow">Hand-picked for you</p>
+            <p className="section-eyebrow">Selecție Specială</p>
             <h2 className="section-title">
-              Featured <span>Products</span>
+              Produse <span>Recomandate</span>
             </h2>
             <div className="section-divider" />
           </div>
@@ -164,7 +163,7 @@ export default function HomePage() {
               <div
                 key={p.id}
                 className="feat-card"
-                onClick={() => navigate(`/sale`)}
+                onClick={() => navigate("/sale")}
               >
                 <div className="feat-img">
                   {p.imageUrl ? (
@@ -175,14 +174,12 @@ export default function HomePage() {
                   ) : (
                     <span>🎾</span>
                   )}
-                  
                 </div>
                 <div className="feat-info">
                   {p.brand && <p className="feat-brand">{p.brand}</p>}
                   <p className="feat-name">{p.name}</p>
                   <div className="feat-price">
-                    
-                    <span className="feat-price-new">${p.price}</span>
+                    <span className="feat-price-new">{p.price} MDL</span>
                   </div>
                 </div>
               </div>
@@ -195,7 +192,7 @@ export default function HomePage() {
               style={{ background: "#5a3e28" }}
               onClick={() => navigate("/sale")}
             >
-              View All Products →
+              Vezi Toate Produsele →
             </button>
           </div>
         </section>
@@ -204,20 +201,13 @@ export default function HomePage() {
       {/* ── WHY CHOOSE US ── */}
       <section className="why-section">
         <div className="section-header">
-          <p className="section-eyebrow">Our Promise</p>
+          <p className="section-eyebrow">Promisiunea Noastră</p>
           <h2 className="section-title">
-            Why Choose <span>Us</span>
+            De Ce să <span>Ne Alegi</span>
           </h2>
           <div className="section-divider" />
-          <p
-            style={{
-              marginTop: "0.8rem",
-              fontSize: 14,
-              color: "#9e8572",
-              fontWeight: 300,
-            }}
-          >
-            Everything you need to play your best game.
+          <p style={{ marginTop: "0.8rem", fontSize: 13, color: "#9e8572", fontWeight: 300 }}>
+            Tot ce ai nevoie pentru cel mai bun joc al tău.
           </p>
         </div>
 
@@ -235,18 +225,18 @@ export default function HomePage() {
       {/* ── CTA BANNER ── */}
       <section className="cta-section">
         <div className="cta-inner">
-          <p className="cta-eyebrow">Limited Time Offer</p>
-          <h2 className="cta-title">Ready to Hit the Court?</h2>
+          <p className="cta-eyebrow">Ofertă Limitată</p>
+          <h2 className="cta-title">Pregătit să Joci?</h2>
           <p className="cta-desc">
-            Join thousands of players who trust us for their gear. New arrivals
-            every week — don't miss out.
+            Alătură-te miilor de jucători care au încredere în noi pentru echipamentul lor.
+            Produse noi în fiecare săptămână — nu rata ofertele!
           </p>
-          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", position: "relative" }}>
+          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap", position: "relative" }}>
             <button className="btn-primary" onClick={() => navigate("/sale")}>
-              Shop Now →
+              Cumpără Acum →
             </button>
-            <button className="btn-secondary" onClick={() => navigate("/sale?category=Court Rental")}>
-              Book a Court
+            <button className="btn-secondary" onClick={() => navigate("/rent")}>
+              Închiriază un Teren
             </button>
           </div>
         </div>
