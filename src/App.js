@@ -14,6 +14,7 @@ import Favourites from "./pages/Favourites";
 import Contact from "./pages/Contact";
 import { FavouritesProvider } from "./context/FavouritesContext";
 import { CartProvider } from "./context/CartContext";
+import RentDetail from "./pages/RentDetail";
 function App() {
   return (
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
@@ -33,6 +34,7 @@ function App() {
         <Route path="/cart" element={<PrivateRoute><Cart /></PrivateRoute>} />
 <Route path="/favourites" element={<PrivateRoute><Favourites /></PrivateRoute>} />
 <Route path="/contact" element={<PrivateRoute><Contact /></PrivateRoute>} />
+<Route path="/rent/:id" element={<PrivateRoute><RentDetail /></PrivateRoute>} />
       </Routes>
       </CartProvider>
       </FavouritesProvider>

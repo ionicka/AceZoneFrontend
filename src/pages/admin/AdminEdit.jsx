@@ -4,6 +4,7 @@ import api from "../../api/axiosConfig";
 import "./Admin.css";
 import ImageUpload from "../../components/ImageUpload";
 import Navbar from "../../components/Navbar";
+
 const categories = [
   "Rackets",
   "Shoes",
@@ -27,8 +28,12 @@ export default function AdminEdit() {
       .catch(() => setError("Produsul nu a fost găsit."));
   }, [id]);
 
-  const update = (field) => (e) =>
-    setForm({ ...form, [field]: e.target.value });
+ const update = (field) => (e) => {
+  const value = ["price", "stock", "rentPrice"].includes(field)
+    ? e.target.value === "" ? "" : Number(e.target.value)
+    : e.target.value;
+  setForm({ ...form, [field]: value });
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -77,7 +82,7 @@ export default function AdminEdit() {
             </div>
             <div className="form-row">
               <div className="form-group">
-                <label>Preț ($) *</label>
+                <label>Preț (MDL) *</label>
                 <input
                   type="number"
                   step="0.01"
@@ -86,7 +91,6 @@ export default function AdminEdit() {
                   required
                 />
               </div>
-             
               <div className="form-group">
                 <label>Stoc</label>
                 <input
@@ -127,15 +131,34 @@ export default function AdminEdit() {
               <div className="form-group">
                 <label>Acces Chirie</label>
                 <select
-                  value={form.rentable}
+                  value={form.rentable || false}
                   onChange={(e) =>
-                    setForm({ ...form, rentable: e.target.value === "true" })
+                    setForm({
+                      ...form,
+                      rentable: e.target.value === "true",
+                      rentPrice: e.target.value === "false" ? "" : form.rentPrice,
+                    })
                   }
                 >
                   <option value="false">Nu</option>
                   <option value="true">Da</option>
                 </select>
               </div>
+
+              {/* Apare doar când Acces Chirie = Da */}
+              {(form.rentable === true || form.rentable === "true") && (
+                <div className="form-group">
+                  <label>Preț închiriere (MDL/oră) *</label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={form.rentPrice || ""}
+                    onChange={update("rentPrice")}
+                    required
+                    placeholder="ex: 50"
+                  />
+                </div>
+              )}
             </div>
             <div className="form-group">
               <label>Imagine</label>

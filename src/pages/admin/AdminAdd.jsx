@@ -4,6 +4,7 @@ import api from "../../api/axiosConfig";
 import "./Admin.css";
 import ImageUpload from "../../components/ImageUpload";
 import Navbar from "../../components/Navbar";
+
 const emptyForm = {
   name: "",
   description: "",
@@ -14,6 +15,7 @@ const emptyForm = {
   stock: "",
   available: true,
   rentable: false,
+  rentPrice: "",
 };
 
 const categories = [
@@ -75,7 +77,7 @@ export default function AdminAdd() {
             </div>
             <div className="form-row">
               <div className="form-group">
-                <label>Preț ($) *</label>
+                <label>Preț (MDL) *</label>
                 <input
                   type="number"
                   step="0.01"
@@ -84,7 +86,6 @@ export default function AdminAdd() {
                   required
                 />
               </div>
-
               <div className="form-group">
                 <label>Stoc</label>
                 <input
@@ -127,13 +128,32 @@ export default function AdminAdd() {
                 <select
                   value={form.rentable}
                   onChange={(e) =>
-                    setForm({ ...form, rentable: e.target.value === "true" })
+                    setForm({
+                      ...form,
+                      rentable: e.target.value === "true",
+                      rentPrice: e.target.value === "false" ? "" : form.rentPrice,
+                    })
                   }
                 >
                   <option value="false">Nu</option>
                   <option value="true">Da</option>
                 </select>
               </div>
+
+              {/* Apare doar când Acces Chirie = Da */}
+              {(form.rentable === true || form.rentable === "true") && (
+                <div className="form-group">
+                  <label>Preț închiriere (MDL/oră) *</label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={form.rentPrice}
+                    onChange={update("rentPrice")}
+                    required
+                    placeholder="ex: 50"
+                  />
+                </div>
+              )}
             </div>
             <div className="form-group">
               <label>Imagine</label>
