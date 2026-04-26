@@ -294,3 +294,14 @@
   .cart-item { flex-wrap: wrap; }
   .cart-item-subtotal { flex: 1; }
 }
+
+.sort-select {
+  padding: 5px 10px;
+  border: 1px solid #e8e0d5;
+  border-radius: 20px;
+  font-size: 12px;
+  color: #5a3e28;
+  background: #fff;
+  cursor: pointer;
+  outline: none;
+}

@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import api from "../api/axiosConfig";
 import "./Cart.css";
+import { useCart } from "../context/CartContext";
 
 export default function Cart() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { loadCart } = useCart();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,23 +26,24 @@ export default function Cart() {
 
   const updateQuantity = (itemId, qty) => {
     api.put(`/api/cart/${itemId}`, { quantity: qty })
-      .then(fetchCart)
+      .then(() => { fetchCart(); loadCart(); })
       .catch(console.error);
   };
 
   const removeItem = (itemId) => {
     api.delete(`/api/cart/${itemId}`)
-      .then(fetchCart)
+      .then(() => { fetchCart(); loadCart(); })
       .catch(console.error);
   };
 
   const clearCart = () => {
     api.delete("/api/cart")
-      .then(fetchCart)
+      .then(() => { fetchCart(); loadCart(); })
       .catch(console.error);
   };
 
   const total = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+  const freeShippingThreshold = 500;
 
   return (
     <div className="cart-page">
@@ -81,7 +84,7 @@ export default function Cart() {
                     {item.product.brand && (
                       <p className="cart-item-brand">{item.product.brand}</p>
                     )}
-                    <p className="cart-item-price">${item.product.price}</p>
+                    <p className="cart-item-price">{item.product.price} MDL</p>
                   </div>
                   <div className="cart-item-qty">
                     <button onClick={() => updateQuantity(item.id, item.quantity - 1)}>−</button>
@@ -89,7 +92,7 @@ export default function Cart() {
                     <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
                   </div>
                   <p className="cart-item-subtotal">
-                    ${(item.product.price * item.quantity).toFixed(2)}
+                    {(item.product.price * item.quantity).toFixed(2)} MDL
                   </p>
                   <button className="cart-item-remove" onClick={() => removeItem(item.id)}>✕</button>
                 </div>
@@ -100,20 +103,25 @@ export default function Cart() {
               <h3 className="summary-title">Sumar comandă</h3>
               <div className="summary-row">
                 <span>Produse ({items.length})</span>
-                <span>${total.toFixed(2)}</span>
+                <span>{total.toFixed(2)} MDL</span>
               </div>
               <div className="summary-row">
                 <span>Livrare</span>
-                <span>{total >= 90 ? <span style={{color:"#5a3e28"}}>Gratuită</span> : "$10.00"}</span>
+                <span>
+                  {total >= freeShippingThreshold
+                    ? <span style={{ color: "#5a3e28" }}>Gratuită</span>
+                    : "50 MDL"
+                  }
+                </span>
               </div>
               <div className="summary-divider" />
               <div className="summary-row summary-total">
                 <span>Total</span>
-                <span>${(total >= 90 ? total : total + 10).toFixed(2)}</span>
+                <span>{(total >= freeShippingThreshold ? total : total + 50).toFixed(2)} MDL</span>
               </div>
-              {total < 90 && (
+              {total < freeShippingThreshold && (
                 <p className="free-shipping-msg">
-                  Mai adaugă ${(90 - total).toFixed(2)} pentru livrare gratuită!
+                  Mai adaugă {(freeShippingThreshold - total).toFixed(2)} MDL pentru livrare gratuită!
                 </p>
               )}
               <button className="btn-checkout">Finalizează comanda</button>

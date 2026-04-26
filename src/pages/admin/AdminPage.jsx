@@ -7,7 +7,6 @@ const emptyForm = {
   name: "",
   description: "",
   price: "",
- 
   category: "",
   brand: "",
   imageUrl: "",
@@ -198,7 +197,7 @@ export default function AdminPage({ mode = "add" }) {
                 <th>Preț</th>
                 <th>Stoc</th>
                 <th>Disponibil</th>
-                <th>Acțiuni</th>
+                
               </tr>
             </thead>
             <tbody>

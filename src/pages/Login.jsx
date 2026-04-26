@@ -2,17 +2,21 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../api/axiosConfig";
 import "./Auth.css";
-
+import { useFavourites } from "../context/FavouritesContext";
+import { useCart } from "../context/CartContext";
 export default function Login() {
   const [form, setForm] = useState({ username: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
+  const { loadFavourites } = useFavourites();
+const { loadCart } = useCart();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await api.post("/api/auth/login", form);
       localStorage.setItem("token", res.data);
+      loadFavourites();
+        loadCart();
       navigate("/");
     } catch (err) {
       setError("Username sau parola greșite.");

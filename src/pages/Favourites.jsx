@@ -7,6 +7,7 @@ import "./Favourites.css";
 export default function Favourites() {
   const [favourites, setFavourites] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [cartMsg, setCartMsg] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,13 +25,18 @@ export default function Favourites() {
 
   const removeFavourite = (productId) => {
     api.delete(`/api/favourites/${productId}`)
-      .then(fetchFavourites)
+      .then(() => {
+        setFavourites(prev => prev.filter(f => f.product.id !== productId));
+      })
       .catch(console.error);
   };
 
   const addToCart = (productId) => {
     api.post(`/api/cart/${productId}`)
-      .then(() => alert("Adăugat în coș!"))
+      .then(() => {
+        setCartMsg(prev => ({ ...prev, [productId]: true }));
+        setTimeout(() => setCartMsg(prev => ({ ...prev, [productId]: false })), 1500);
+      })
       .catch(console.error);
   };
 
@@ -77,14 +83,13 @@ export default function Favourites() {
                 )}
                 <p className="fav-name">{fav.product.name}</p>
                 <div className="fav-price">
-          
-                  <span className="price-new">${fav.product.price}</span>
+                  <span className="price-new">{fav.product.price} MDL</span>
                 </div>
                 <button
                   className="btn-add-cart"
                   onClick={() => addToCart(fav.product.id)}
                 >
-                  + Adaugă în coș
+                  {cartMsg[fav.product.id] ? "✓ Adăugat!" : "🛒 Adaugă în coș"}
                 </button>
               </div>
             </div>

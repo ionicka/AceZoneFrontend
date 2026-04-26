@@ -57,7 +57,6 @@ export default function AdminProducts() {
                 <th>Preț</th>
                 <th>Stoc</th>
                 <th>Disponibil</th>
-                <th>Acțiuni</th>
                 <th>Chirie</th>
               </tr>
             </thead>
@@ -112,6 +111,5 @@ export default function AdminProducts() {
 }
 
 function AdminHeader() {
-  const navigate = useNavigate();
   return <Navbar />;
 }

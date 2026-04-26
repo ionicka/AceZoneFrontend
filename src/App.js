@@ -12,10 +12,13 @@ import Rent from "./pages/Rent";
 import Cart from "./pages/Cart";
 import Favourites from "./pages/Favourites";
 import Contact from "./pages/Contact";
-
+import { FavouritesProvider } from "./context/FavouritesContext";
+import { CartProvider } from "./context/CartContext";
 function App() {
   return (
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <FavouritesProvider>
+          <CartProvider>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -31,6 +34,8 @@ function App() {
 <Route path="/favourites" element={<PrivateRoute><Favourites /></PrivateRoute>} />
 <Route path="/contact" element={<PrivateRoute><Contact /></PrivateRoute>} />
       </Routes>
+      </CartProvider>
+      </FavouritesProvider>
     </BrowserRouter>
   );
 }

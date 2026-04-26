@@ -10,7 +10,6 @@ export default function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aici poți conecta la un API de email mai târziu
     setSent(true);
     setForm({ name: "", email: "", subject: "", message: "" });
   };
@@ -31,17 +30,17 @@ export default function Contact() {
           <div className="contact-info-card">
             <span className="contact-icon">📍</span>
             <h4>Adresă</h4>
-            <p>Str. Exemplu Nr. 1<br />București, România</p>
+            <p>Str. Exemplu Nr. 1<br />Chisinau, Moldova</p>
           </div>
           <div className="contact-info-card">
             <span className="contact-icon">📞</span>
             <h4>Telefon</h4>
-            <p>+40 700 000 000<br />Lun–Vin, 9:00–18:00</p>
+            <p>06866453<br />Lun–Vin, 9:00–18:00</p>
           </div>
           <div className="contact-info-card">
             <span className="contact-icon">✉️</span>
             <h4>Email</h4>
-            <p>contact@acezone.ro<br />Răspundem în 24h</p>
+            <p>contact@acezone.md<br />Răspundem în 24h</p>
           </div>
           <div className="contact-info-card">
             <span className="contact-icon">🏟️</span>
@@ -114,9 +113,7 @@ export default function Contact() {
             <div className="map-placeholder">
               <span>🗺️</span>
               <p>Hartă indisponibilă</p>
-              <p style={{ fontSize: 11, color: "#9e8572" }}>
-                Adaugă Google Maps API key pentru a afișa harta
-              </p>
+            
             </div>
           </div>
         </div>

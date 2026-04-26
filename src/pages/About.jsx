@@ -27,7 +27,7 @@ const team = [
 ];
 
 const footerLinks = {
-  "Linkuri Utile": ["Acasă", "Despre Noi", "Vânzări", "Contactați-ne"],
+  "Linkuri Utile": ["Acasă", "Despre Noi", "Produse", "Contactați-ne"],
   "Suport": ["Centru Ajutor", "Contactați-ne", "Livrări", "Retururi"],
 };
 
