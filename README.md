@@ -34,16 +34,16 @@ The platform allows users to browse products, manage favorites, rent or purchase
 images/landing-page
 
 ### Products Page
-(Add screenshot here)
+images/products
 
 ### Shopping Cart
-(Add screenshot here)
+images/cart
 
 ### Favorites Page
-(Add screenshot here)
+images/favorites
 
 ### Admin Dashboard
-(Add screenshot here)
+images/admin-product-list
 
 ## Installation
 
